@@ -22,19 +22,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
 
 interface Rule {
   id: number;
   name: string;
-  condition: string;
+  keywordSubject: string;
   createdOn: string;
 }
 
@@ -43,19 +36,19 @@ const RulesPage = () => {
     {
       id: 1,
       name: "CUI Emails",
-      condition: "Subject contains 'CUI'",
+      keywordSubject: "CUI",
       createdOn: "Jun 05, 2025"
     },
     {
       id: 2,
       name: "Invoice Filter",
-      condition: "Subject contains 'Invoice'",
+      keywordSubject: "Invoice",
       createdOn: "Jun 04, 2025"
     },
     {
       id: 3,
-      name: "Has Attachments",
-      condition: "Has attachment",
+      name: "Important Messages",
+      keywordSubject: "Important",
       createdOn: "Jun 01, 2025"
     }
   ]);
@@ -64,23 +57,12 @@ const RulesPage = () => {
   const [editingRule, setEditingRule] = useState<Rule | null>(null);
   const [formData, setFormData] = useState({
     name: "",
-    conditionType: "",
-    conditionValue: ""
+    keywordSubject: ""
   });
-
-  const conditionTypes = [
-    { value: "subject_contains", label: "Subject contains" },
-    { value: "sender_is", label: "Sender is" },
-    { value: "date_before", label: "Date before" },
-    { value: "date_after", label: "Date after" },
-    { value: "label_is", label: "Label is" },
-    { value: "has_attachment", label: "Has attachment" },
-    { value: "custom_query", label: "Custom query" }
-  ];
 
   const handleCreateRule = () => {
     setEditingRule(null);
-    setFormData({ name: "", conditionType: "", conditionValue: "" });
+    setFormData({ name: "", keywordSubject: "" });
     setIsDialogOpen(true);
   };
 
@@ -88,27 +70,21 @@ const RulesPage = () => {
     setEditingRule(rule);
     setFormData({
       name: rule.name,
-      conditionType: "subject_contains", // Default for demo
-      conditionValue: ""
+      keywordSubject: rule.keywordSubject
     });
     setIsDialogOpen(true);
   };
 
   const handleSaveRule = () => {
-    if (!formData.name || !formData.conditionType) {
+    if (!formData.name || !formData.keywordSubject) {
       toast.error("Please fill in all required fields");
       return;
     }
 
-    const conditionLabel = conditionTypes.find(t => t.value === formData.conditionType)?.label;
-    const condition = formData.conditionValue 
-      ? `${conditionLabel} '${formData.conditionValue}'`
-      : conditionLabel;
-
     if (editingRule) {
       setRules(prev => prev.map(rule => 
         rule.id === editingRule.id 
-          ? { ...rule, name: formData.name, condition: condition || "" }
+          ? { ...rule, name: formData.name, keywordSubject: formData.keywordSubject }
           : rule
       ));
       toast.success("Rule updated successfully!");
@@ -116,7 +92,7 @@ const RulesPage = () => {
       const newRule: Rule = {
         id: Date.now(),
         name: formData.name,
-        condition: condition || "",
+        keywordSubject: formData.keywordSubject,
         createdOn: new Date().toLocaleDateString('en-US', { 
           year: 'numeric', 
           month: 'short', 
@@ -165,7 +141,7 @@ const RulesPage = () => {
                   {editingRule ? "Edit Rule" : "Create New Rule"}
                 </DialogTitle>
                 <DialogDescription>
-                  Define the conditions for filtering your emails.
+                  Define the rule name and keyword for filtering your emails.
                 </DialogDescription>
               </DialogHeader>
               
@@ -181,35 +157,14 @@ const RulesPage = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="conditionType">Condition Type *</Label>
-                  <Select 
-                    value={formData.conditionType} 
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, conditionType: value }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select condition type" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white">
-                      {conditionTypes.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
-                          {type.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="keywordSubject">Keyword Subject *</Label>
+                  <Input
+                    id="keywordSubject"
+                    value={formData.keywordSubject}
+                    onChange={(e) => setFormData(prev => ({ ...prev, keywordSubject: e.target.value }))}
+                    placeholder="Enter keyword for subject"
+                  />
                 </div>
-                
-                {formData.conditionType && formData.conditionType !== "has_attachment" && (
-                  <div className="space-y-2">
-                    <Label htmlFor="conditionValue">Condition Value</Label>
-                    <Input
-                      id="conditionValue"
-                      value={formData.conditionValue}
-                      onChange={(e) => setFormData(prev => ({ ...prev, conditionValue: e.target.value }))}
-                      placeholder="Enter condition value"
-                    />
-                  </div>
-                )}
               </div>
               
               <DialogFooter>
@@ -248,7 +203,7 @@ const RulesPage = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Rule Name</TableHead>
-                    <TableHead>Condition</TableHead>
+                    <TableHead>Keyword Subject</TableHead>
                     <TableHead>Created On</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -257,7 +212,7 @@ const RulesPage = () => {
                   {rules.map((rule) => (
                     <TableRow key={rule.id}>
                       <TableCell className="font-medium">{rule.name}</TableCell>
-                      <TableCell>{rule.condition}</TableCell>
+                      <TableCell>{rule.keywordSubject}</TableCell>
                       <TableCell>{rule.createdOn}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">

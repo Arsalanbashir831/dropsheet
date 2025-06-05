@@ -1,9 +1,8 @@
 
 import Layout from "@/components/Layout";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   Table, 
   TableBody, 
@@ -12,6 +11,7 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 const SubscriptionPage = () => {
   const currentPlan = {
@@ -33,27 +33,6 @@ const SubscriptionPage = () => {
       description: "Pro Plan – Monthly",
       amount: "$9.99",
       status: "Paid"
-    }
-  ];
-
-  const plans = [
-    {
-      name: "Free",
-      price: "$0",
-      features: ["100 emails", "Basic support"],
-      current: false
-    },
-    {
-      name: "Pro",
-      price: "$9.99",
-      features: ["1,000 emails", "Priority support"],
-      current: true
-    },
-    {
-      name: "Enterprise",
-      price: "Custom",
-      features: ["Unlimited", "Dedicated support"],
-      current: false
     }
   ];
 
@@ -104,61 +83,6 @@ const SubscriptionPage = () => {
                     className="h-2"
                   />
                 </div>
-                
-                <div className="flex gap-3">
-                  <Button variant="outline">Manage Plan</Button>
-                  <Button variant="outline" className="text-red-600 border-red-600">
-                    Downgrade to Free
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Change Plan */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Change Plan</CardTitle>
-                <CardDescription>
-                  Select a different plan to switch to.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {plans.map((plan) => (
-                    <div 
-                      key={plan.name}
-                      className={`p-4 border rounded-lg ${
-                        plan.current 
-                          ? 'border-green-500 bg-green-50' 
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-semibold">{plan.name}</h3>
-                            {plan.current && (
-                              <Badge variant="secondary" className="bg-green-100 text-green-800">
-                                Current
-                              </Badge>
-                            )}
-                          </div>
-                          <p className="text-sm text-gray-600">
-                            {plan.features.join(", ")}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold">{plan.price}</p>
-                          {!plan.current && (
-                            <Button variant="outline" size="sm" className="mt-2">
-                              Select
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </CardContent>
             </Card>
           </div>
@@ -168,9 +92,6 @@ const SubscriptionPage = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Billing History</CardTitle>
-                <CardDescription>
-                  Your past invoices and payments.
-                </CardDescription>
               </CardHeader>
               <CardContent>
                 {billingHistory.length === 0 ? (
@@ -216,9 +137,6 @@ const SubscriptionPage = () => {
             <Card className="border-red-200">
               <CardHeader>
                 <CardTitle className="text-red-800">Cancel Subscription</CardTitle>
-                <CardDescription>
-                  Cancel your current subscription plan.
-                </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-600 mb-4">

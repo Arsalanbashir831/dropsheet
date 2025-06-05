@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { 
@@ -57,7 +56,7 @@ const DashboardPage = () => {
         {/* Greeting */}
         <div>
           <h1 className="text-3xl font-bold text-gray-900">
-            Assalam-o-Alaikum, Ahmed Khan! Welcome back.
+            Hello Arslan! Welcome back.
           </h1>
         </div>
 
@@ -66,7 +65,7 @@ const DashboardPage = () => {
           <div className="flex items-center gap-3">
             <div className={`w-3 h-3 rounded-full ${isGmailSynced ? 'bg-green-600' : 'bg-red-500'}`} />
             <span className={`font-medium ${isGmailSynced ? 'text-green-600' : 'text-red-500'}`}>
-              {isGmailSynced ? "Connected: ahmed.khan@gmail.com" : "Gmail not connected"}
+              {isGmailSynced ? "Connected: arslan@gmail.com" : "Gmail not connected"}
             </span>
           </div>
           <div className="flex gap-3">
@@ -75,9 +74,6 @@ const DashboardPage = () => {
               className="bg-green-600 hover:bg-green-700"
             >
               Sync Gmail
-            </Button>
-            <Button variant="outline" asChild>
-              <Link to="/rules">Create New Rule</Link>
             </Button>
           </div>
         </div>
@@ -144,13 +140,7 @@ const DashboardPage = () => {
         {/* Email Table */}
         <Card>
           <CardHeader>
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <CardTitle>Recent Emails</CardTitle>
-              <div className="flex gap-3">
-                <Input placeholder="Search emails..." className="max-w-sm" />
-                <Button variant="outline">Apply Filters</Button>
-              </div>
-            </div>
+            <CardTitle>Recent Emails</CardTitle>
           </CardHeader>
           <CardContent>
             {!isGmailSynced ? (

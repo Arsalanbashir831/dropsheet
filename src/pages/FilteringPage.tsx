@@ -15,29 +15,14 @@ import { toast } from "sonner";
 
 const FilteringPage = () => {
   const [selectedRule, setSelectedRule] = useState("");
-  const [showPreview, setShowPreview] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const rules = [
     { id: "1", name: "CUI Emails" },
     { id: "2", name: "Invoice Filter" },
-    { id: "3", name: "Has Attachments" }
+    { id: "3", name: "Important Messages" }
   ];
-
-  const matchingEmails = [
-    "Invitation to CUI Concert - John Doe",
-    "CUI Alumni Meeting - Alumni Office",
-    "CUI Course Registration - Academic Office"
-  ];
-
-  const handlePreviewMatches = () => {
-    if (!selectedRule) {
-      toast.error("Please select a rule first");
-      return;
-    }
-    setShowPreview(true);
-  };
 
   const handleGenerateDropSheet = async () => {
     if (!selectedRule) {
@@ -113,42 +98,6 @@ const FilteringPage = () => {
               )}
             </CardContent>
           </Card>
-
-          {/* Preview Matches */}
-          {selectedRule && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Preview Matches</CardTitle>
-                <CardDescription>
-                  See which emails match your selected rule.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Button 
-                  variant="outline" 
-                  onClick={handlePreviewMatches}
-                  disabled={!selectedRule}
-                >
-                  Preview Matches
-                </Button>
-                
-                {showPreview && (
-                  <div className="space-y-3">
-                    <p className="text-sm font-medium text-green-600">
-                      {matchingEmails.length} emails match this rule
-                    </p>
-                    <div className="space-y-2">
-                      {matchingEmails.slice(0, 5).map((email, index) => (
-                        <div key={index} className="text-sm text-gray-600 p-2 bg-gray-50 rounded">
-                          {email}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
 
           {/* Generate DropSheet */}
           <Card>

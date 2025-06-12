@@ -67,7 +67,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			apiCaller(API_ROUTES.AUTH.SIGNUP, "POST", info),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-			navigate(ROUTES.PAGES.LOGIN);
 		},
 	});
 

@@ -8,54 +8,17 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/hooks/use-auth";
 import SubscriptionCard from "@/components/SubscriptionCard";
 
 const ProfilePage: React.FC = () => {
-	const navigate = useNavigate();
-	const { user, userLoading, userError, logout } = useAuth();
-	const [passwordData, setPasswordData] = React.useState({
-		current: "",
-		new: "",
-		confirm: "",
-	});
+	const { user, userLoading, userError } = useAuth();
 
 	if (userLoading) return <div>Loading profile…</div>;
 	if (userError || !user)
 		return <div>Error loading profile. Please try again later.</div>;
-
-	const handlePasswordUpdate = (e: React.FormEvent) => {
-		e.preventDefault();
-
-		if (passwordData.new !== passwordData.confirm) {
-			toast.error("New passwords do not match");
-			return;
-		}
-
-		if (passwordData.new.length < 8) {
-			toast.error("Password must be at least 8 characters");
-			return;
-		}
-
-		toast.success("Password updated successfully!");
-		setPasswordData({ current: "", new: "", confirm: "" });
-	};
-
-	const handleDeleteAccount = () => {
-		const confirmed = window.confirm(
-			"This action is irreversible. Are you sure you want to delete your account?"
-		);
-		if (confirmed) {
-			toast.success("Account deletion initiated");
-			setTimeout(() => navigate(ROUTES.PAGES.LOGIN), 2000);
-		}
-	};
 
 	return (
 		<Layout>
@@ -114,113 +77,6 @@ const ProfilePage: React.FC = () => {
 
 					{/* Subscription Status */}
 					<SubscriptionCard />
-
-					{/* Change Password */}
-					<Card>
-						<CardHeader>
-							<CardTitle>Change Password</CardTitle>
-							<CardDescription>
-								Update your account password for better security.
-							</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<form onSubmit={handlePasswordUpdate} className="space-y-4">
-								<div className="space-y-2">
-									<Label htmlFor="currentPassword">Current Password</Label>
-									<Input
-										id="currentPassword"
-										type="password"
-										value={passwordData.current}
-										onChange={(e) =>
-											setPasswordData((prev) => ({
-												...prev,
-												current: e.target.value,
-											}))
-										}
-										required
-									/>
-								</div>
-
-								<div className="space-y-2">
-									<Label htmlFor="newPassword">New Password</Label>
-									<Input
-										id="newPassword"
-										type="password"
-										value={passwordData.new}
-										onChange={(e) =>
-											setPasswordData((prev) => ({
-												...prev,
-												new: e.target.value,
-											}))
-										}
-										required
-									/>
-									<p className="text-xs text-gray-600">
-										Password must be at least 8 characters long
-									</p>
-								</div>
-
-								<div className="space-y-2">
-									<Label htmlFor="confirmPassword">Confirm New Password</Label>
-									<Input
-										id="confirmPassword"
-										type="password"
-										value={passwordData.confirm}
-										onChange={(e) =>
-											setPasswordData((prev) => ({
-												...prev,
-												confirm: e.target.value,
-											}))
-										}
-										required
-									/>
-								</div>
-
-								<div className="flex gap-3">
-									<Button
-										type="submit"
-										className="bg-green-600 hover:bg-green-700">
-										Update Password
-									</Button>
-									<Button
-										type="button"
-										variant="outline"
-										onClick={() =>
-											setPasswordData({ current: "", new: "", confirm: "" })
-										}>
-										Cancel
-									</Button>
-								</div>
-							</form>
-						</CardContent>
-					</Card>
-
-					{/* Account Actions */}
-					<Card className="border-red-200">
-						<CardHeader>
-							<CardTitle className="text-red-800">Account Actions</CardTitle>
-							<CardDescription>
-								Manage your account settings and data.
-							</CardDescription>
-						</CardHeader>
-						<CardContent className="space-y-4">
-							<div className="flex flex-col sm:flex-row gap-4">
-								<Button
-									variant="outline"
-									className="text-red-600 border-red-600"
-									onClick={handleDeleteAccount}>
-									Delete Account
-								</Button>
-								<Button variant="outline" onClick={logout}>
-									Logout
-								</Button>
-							</div>
-							<p className="text-xs text-gray-600">
-								Deleting your account will permanently remove all your data and
-								cannot be undone.
-							</p>
-						</CardContent>
-					</Card>
 				</div>
 			</div>
 		</Layout>

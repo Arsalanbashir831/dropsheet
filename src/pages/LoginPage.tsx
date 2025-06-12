@@ -22,7 +22,7 @@ interface FormData {
 }
 
 const LoginPage: React.FC = () => {
-	const { user, login, signup, loading } = useAuth();
+	const { user, login, signup, userLoading } = useAuth();
 	const [isLogin, setIsLogin] = useState(true);
 	const [formData, setFormData] = useState<FormData>({
 		name: "",
@@ -55,11 +55,18 @@ const LoginPage: React.FC = () => {
 			if (isLogin) {
 				await login(formData.name, formData.password);
 				toast.success("Logged in successfully!");
+				navigate(ROUTES.PAGES.DASHBOARD);
 			} else {
 				await signup(formData.name, formData.email, formData.password);
 				toast.success("Account created successfully!");
+				setIsLogin(true);
+				setFormData({
+					name: "",
+					email: "",
+					password: "",
+					confirmPassword: "",
+				});
 			}
-			navigate(ROUTES.PAGES.DASHBOARD);
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			const msg =
@@ -151,17 +158,11 @@ const LoginPage: React.FC = () => {
 								/>
 							</div>
 						)}
-						{isLogin && (
-							<div className="text-right">
-								<Button variant="link" className="p-0 text-green-600">
-									Forgot Password?
-								</Button>
-							</div>
-						)}
+
 						<Button
 							type="submit"
 							className="w-full bg-green-600 hover:bg-green-700"
-							disabled={loading}>
+							disabled={userLoading}>
 							{isLogin ? "Sign In" : "Create Account"}
 						</Button>
 					</form>

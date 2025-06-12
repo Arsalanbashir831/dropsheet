@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ROUTES } from "@/constants/routes";
+import { useUser } from "@/hooks/use-user";
 
 interface LayoutProps {
 	children: ReactNode;
@@ -17,6 +18,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
 	const location = useLocation();
 	const navigate = useNavigate();
+	const { user } = useUser();
 
 	const isActive = (path: string) => location.pathname === path;
 
@@ -95,8 +97,8 @@ const Layout = ({ children }: LayoutProps) => {
 									variant="ghost"
 									className="relative h-8 w-8 rounded-full">
 									<Avatar className="h-8 w-8">
-										<AvatarFallback className="bg-green-100 text-green-600">
-											AK
+										<AvatarFallback className="bg-green-100 text-green-600 text-xl">
+											{user.username.charAt(0).toUpperCase()}
 										</AvatarFallback>
 									</Avatar>
 								</Button>

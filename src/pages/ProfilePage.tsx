@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,45 +10,24 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
+import { useUser } from "@/hooks/use-user";
 
-const ProfilePage = () => {
+const ProfilePage: React.FC = () => {
 	const navigate = useNavigate();
-	const [isEditingName, setIsEditingName] = useState(false);
-	const [isEditingUsername, setIsEditingUsername] = useState(false);
-	const [profileData, setProfileData] = useState({
-		fullName: "Ahmed Khan",
-		email: "ahmed.khan@example.com",
-		username: "ahmedk",
-		language: "en-US",
-		secondaryEmail: "ahmed.khan.work@example.com",
-	});
-
-	const [passwordData, setPasswordData] = useState({
+	const { user, isLoading, isError } = useUser();
+	const [passwordData, setPasswordData] = React.useState({
 		current: "",
 		new: "",
 		confirm: "",
 	});
 
-	const handleSaveName = () => {
-		setIsEditingName(false);
-		toast.success("Name updated successfully!");
-	};
-
-	const handleSaveUsername = () => {
-		setIsEditingUsername(false);
-		toast.success("Username updated successfully!");
-	};
+	if (isLoading) return <div>Loading profile…</div>;
+	if (isError || !user)
+		return <div>Error loading profile. Please try again later.</div>;
 
 	const handlePasswordUpdate = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -71,12 +50,9 @@ const ProfilePage = () => {
 		const confirmed = window.confirm(
 			"This action is irreversible. Are you sure you want to delete your account?"
 		);
-
 		if (confirmed) {
 			toast.success("Account deletion initiated");
-			setTimeout(() => {
-				navigate(ROUTES.PAGES.LOGIN);
-			}, 2000);
+			setTimeout(() => navigate(ROUTES.PAGES.LOGIN), 2000);
 		}
 	};
 
@@ -90,10 +66,7 @@ const ProfilePage = () => {
 	return (
 		<Layout>
 			<div className="max-w-4xl mx-auto px-6 py-8">
-				{/* Breadcrumb */}
 				<nav className="text-sm text-gray-600 mb-6">Dashboard / Profile</nav>
-
-				{/* Header */}
 				<div className="mb-8">
 					<h1 className="text-3xl font-bold text-gray-900 mb-2">
 						Your Profile
@@ -113,130 +86,34 @@ const ProfilePage = () => {
 							</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
-							{/* Profile Picture */}
 							<div className="flex items-center gap-4">
 								<Avatar className="h-20 w-20">
 									<AvatarFallback className="bg-green-100 text-green-600 text-xl">
-										AK
+										{user.username.charAt(0).toUpperCase()}
 									</AvatarFallback>
 								</Avatar>
 								<Button variant="outline">Upload Photo</Button>
 							</div>
 
-							{/* Full Name */}
 							<div className="space-y-2">
-								<Label>Full Name</Label>
-								{isEditingName ? (
-									<div className="flex gap-3">
-										<Input
-											value={profileData.fullName}
-											onChange={(e) =>
-												setProfileData((prev) => ({
-													...prev,
-													fullName: e.target.value,
-												}))
-											}
-											className="flex-1"
-										/>
-										<Button onClick={handleSaveName} size="sm">
-											Save
-										</Button>
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() => setIsEditingName(false)}>
-											Cancel
-										</Button>
-									</div>
-								) : (
-									<div className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
-										<span>{profileData.fullName}</span>
-										<Button
-											variant="ghost"
-											size="sm"
-											onClick={() => setIsEditingName(true)}>
-											Edit
-										</Button>
-									</div>
-								)}
+								<Label>Username</Label>
+								<div className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+									<span>{user.username}</span>
+								</div>
 							</div>
 
-							{/* Email Address */}
 							<div className="space-y-2">
 								<Label>Email Address</Label>
 								<div className="p-3 bg-gray-50 rounded-md">
-									<span className="text-gray-700">{profileData.email}</span>
+									<span className="text-gray-700">{user.email}</span>
 								</div>
 							</div>
 
-							{/* Username */}
 							<div className="space-y-2">
-								<Label>Username</Label>
-								{isEditingUsername ? (
-									<div className="flex gap-3">
-										<Input
-											value={profileData.username}
-											onChange={(e) =>
-												setProfileData((prev) => ({
-													...prev,
-													username: e.target.value,
-												}))
-											}
-											className="flex-1"
-										/>
-										<Button onClick={handleSaveUsername} size="sm">
-											Save
-										</Button>
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() => setIsEditingUsername(false)}>
-											Cancel
-										</Button>
-									</div>
-								) : (
-									<div className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
-										<span>{profileData.username}</span>
-										<Button
-											variant="ghost"
-											size="sm"
-											onClick={() => setIsEditingUsername(true)}>
-											Edit
-										</Button>
-									</div>
-								)}
-							</div>
-
-							{/* Language */}
-							<div className="space-y-2">
-								<Label>Language</Label>
-								<Select
-									value={profileData.language}
-									onValueChange={(value) =>
-										setProfileData((prev) => ({ ...prev, language: value }))
-									}>
-									<SelectTrigger className="w-full">
-										<SelectValue />
-									</SelectTrigger>
-									<SelectContent className="bg-white">
-										<SelectItem value="en-US">English (US)</SelectItem>
-										<SelectItem value="ur-PK">Urdu (Pakistan)</SelectItem>
-									</SelectContent>
-								</Select>
-							</div>
-
-							{/* Secondary Email */}
-							<div className="space-y-2">
-								<Label>Secondary Email</Label>
-								<div className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
-									<span>{profileData.secondaryEmail}</span>
-									<Button variant="ghost" size="sm" className="text-red-600">
-										Remove
-									</Button>
+								<Label>Date Joined</Label>
+								<div className="p-3 bg-gray-50 rounded-md">
+									<span className="text-gray-700">{user.dateJoined}</span>
 								</div>
-								<Button variant="outline" size="sm">
-									Add Secondary Email
-								</Button>
 							</div>
 						</CardContent>
 					</Card>

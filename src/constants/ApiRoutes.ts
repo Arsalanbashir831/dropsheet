@@ -3,6 +3,9 @@ export const API_ROUTES = {
 		LOGIN: "/login/",
 		SIGNUP: "/register/",
 	},
+	USER: {
+		PROFILE: "/user/profile/",
+	},
 	GMAIL: {
 		INIT: "/gmail/init/",
 		RULES: "/gmail/rules/",

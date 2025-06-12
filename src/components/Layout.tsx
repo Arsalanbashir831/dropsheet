@@ -98,7 +98,7 @@ const Layout = ({ children }: LayoutProps) => {
 									className="relative h-8 w-8 rounded-full">
 									<Avatar className="h-8 w-8">
 										<AvatarFallback className="bg-green-100 text-green-600 text-xl">
-											{user.username.charAt(0).toUpperCase()}
+											{user?.username.charAt(0).toUpperCase()}
 										</AvatarFallback>
 									</Avatar>
 								</Button>

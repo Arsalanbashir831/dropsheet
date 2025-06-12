@@ -23,60 +23,82 @@ import { toast } from "sonner";
 import apiCaller from "@/lib/ApiCaller"; // Import your API caller
 import { API_ROUTES } from "@/constants/ApiRoutes"; // Import your API routes
 import { ROUTES } from "@/constants/routes";
+import { useUser } from "@/hooks/use-user";
 
 const DashboardPage = () => {
+	const { user } = useUser();
 	const [isGmailSynced, setIsGmailSynced] = useState(false);
-	const [emails, setEmails] = useState<any[]>([]);
+	const [emails, setEmails] = useState([]);
 
-	// Sync Gmail with /gmail/init/
+	// Fetch Gmail connection status
+	const fetchGmailStatus = async () => {
+		try {
+			const response = await apiCaller(API_ROUTES.GMAIL.STATUS, "GET");
+			setIsGmailSynced(response.data.gmail_connected);
+		} catch (error) {
+			console.error("Error fetching Gmail status:", error);
+		}
+	};
+
+	// Sync Gmail
 	const handleSyncGmail = async () => {
 		try {
 			const response = await apiCaller(API_ROUTES.GMAIL.INIT, "GET");
 			const authUrl = response.data.auth_url;
 
-			// Open the authentication URL for the user to login
-			window.open(authUrl, "_blank");
-
-			// Simulate Gmail syncing success
-			toast.success("Please authenticate to sync Gmail.");
-			// You can set isGmailSynced to true here if you want to simulate immediate success
-			setIsGmailSynced(true); // Uncomment this if you want to simulate immediate success
+			if (authUrl) {
+				window.location.href = authUrl;
+			} else {
+				throw new Error("No auth URL provided");
+			}
 		} catch (error) {
 			toast.error("Failed to initiate Gmail sync.");
 			console.error("Gmail sync error:", error);
 		}
 	};
 
-	// Fetch all emails from /emails/
+	// Disconnect Gmail
+	const handleDisconnectGmail = async () => {
+		try {
+			await apiCaller(API_ROUTES.GMAIL.DISCONNECT, "POST");
+			setIsGmailSynced(false);
+			toast.success("Gmail disconnected successfully");
+		} catch (error) {
+			toast.error("Failed to disconnect Gmail.");
+			console.error("Gmail disconnect error:", error);
+		}
+	};
+
+	// Fetch emails after sync
 	const fetchEmails = async () => {
 		try {
 			const response = await apiCaller(API_ROUTES.EMAILS.GET, "GET");
-			setEmails(response.data); // Store the fetched emails in state
+			setEmails(response.data);
 		} catch (error) {
 			toast.error("Failed to fetch emails.");
 			console.error("Error fetching emails:", error);
 		}
 	};
 
-	// Effect to fetch emails after Gmail is synced
+	// On mount, check status and fetch emails if connected
+	useEffect(() => {
+		fetchGmailStatus();
+	}, []);
+
+	// When Gmail status changes to connected, fetch emails
 	useEffect(() => {
 		if (isGmailSynced) {
 			fetchEmails();
 		}
 	}, [isGmailSynced]);
 
-	// Handle Gmail sync success (triggered after user authenticates)
-	const handleGmailSyncSuccess = () => {
-		setIsGmailSynced(true); // Mark Gmail as synced
-	};
-
 	return (
 		<Layout>
 			<div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
 				{/* Greeting */}
 				<div>
-					<h1 className="text-3xl font-bold text-gray-900">
-						Hello Arslan! Welcome back.
+					<h1 className="text-3xl font-bold text-gray-900 capitalize">
+						Hello {user?.username || "User"}! Welcome back.
 					</h1>
 				</div>
 
@@ -99,9 +121,9 @@ const DashboardPage = () => {
 					</div>
 					<div className="flex gap-3">
 						<Button
-							onClick={handleSyncGmail}
+							onClick={isGmailSynced ? handleDisconnectGmail : handleSyncGmail}
 							className="bg-green-600 hover:bg-green-700">
-							Sync Gmail
+							{isGmailSynced ? "Disconnect Gmail" : "Sync Gmail"}
 						</Button>
 					</div>
 				</div>
@@ -176,6 +198,7 @@ const DashboardPage = () => {
 								<p className="text-gray-600 mb-6">
 									Sync Gmail first to see your emails here.
 								</p>
+								{/* Keep Sync Button */}
 								<Button
 									onClick={handleSyncGmail}
 									className="bg-green-600 hover:bg-green-700">

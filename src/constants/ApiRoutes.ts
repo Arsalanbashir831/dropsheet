@@ -8,6 +8,8 @@ export const API_ROUTES = {
 	},
 	GMAIL: {
 		INIT: "/gmail/init/",
+		STATUS: "/gmail/status/",
+		DISCONNECT: "/gmail/disconnect/",
 		RULES: "/gmail/rules/",
 		DELETE_RULE: (id: number) => `/gmail/rules/${id}/`,
 	},

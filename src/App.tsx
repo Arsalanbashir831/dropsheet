@@ -7,7 +7,6 @@ import DashboardPage from "./pages/DashboardPage";
 import RulesPage from "./pages/RulesPage";
 import FilteringPage from "./pages/FilteringPage";
 import PricingPage from "./pages/PricingPage";
-import SubscriptionPage from "./pages/SubscriptionPage";
 import ProfilePage from "./pages/ProfilePage";
 import EmailsPage from "./pages/EmailsPage";
 import { Toaster } from "sonner";
@@ -35,10 +34,6 @@ const App = () => {
 								element={<FilteringPage />}
 							/>
 							<Route path={ROUTES.PAGES.PRICING} element={<PricingPage />} />
-							<Route
-								path={ROUTES.PAGES.SUBSCRIPTION}
-								element={<SubscriptionPage />}
-							/>
 							<Route path={ROUTES.PAGES.PROFILE} element={<ProfilePage />} />
 							<Route path={ROUTES.PAGES.EMAILS} element={<EmailsPage />} />
 

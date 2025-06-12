@@ -18,8 +18,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	// Profile query
 	const {
 		data: user,
-		isLoading,
-		isError,
+		isLoading: userLoading,
+		isError: userError,
 	} = useQuery<UserProfile>({
 		queryKey: ["userProfile"],
 		queryFn: async () => {
@@ -30,6 +30,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 				email,
 				dateJoined: new Date(date_joined).toLocaleDateString(),
 			};
+		},
+		enabled: Boolean(refreshToken),
+		staleTime: 5 * 60 * 1000,
+	});
+
+	// Fetch subscription status
+	const {
+		data: subscription,
+		isLoading: subLoading,
+		isError: subError,
+	} = useQuery({
+		queryKey: ["subscriptionStatus"],
+		queryFn: async () => {
+			const res = await apiCaller(API_ROUTES.BILLING.STATUS, "GET");
+			return res.data;
 		},
 		enabled: Boolean(refreshToken),
 		staleTime: 5 * 60 * 1000,
@@ -51,8 +66,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		mutationFn: (info: { username: string; email: string; password: string }) =>
 			apiCaller(API_ROUTES.AUTH.SIGNUP, "POST", info),
 		onSuccess: () => {
-			// auto-login after signup
-			// reuse loginMutation
+			queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+			navigate(ROUTES.PAGES.LOGIN);
 		},
 	});
 
@@ -77,8 +92,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		<AuthContext.Provider
 			value={{
 				user: user ?? null,
-				loading: isLoading,
-				error: isError,
+				userLoading,
+				userError,
+				subscription: subscription ?? null,
+				subLoading,
+				subError,
 				login,
 				signup,
 				logout,

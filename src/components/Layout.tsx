@@ -73,15 +73,6 @@ const Layout = ({ children }: LayoutProps) => {
 								}`}>
 								Pricing
 							</Link>
-							<Link
-								to={ROUTES.PAGES.SUBSCRIPTION}
-								className={`text-sm font-medium transition-colors ${
-									isActive(ROUTES.PAGES.SUBSCRIPTION)
-										? "text-green-600"
-										: "text-gray-700 hover:text-green-600"
-								}`}>
-								Subscription
-							</Link>
 						</nav>
 
 						{/* User Menu */}

@@ -15,18 +15,19 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/hooks/use-auth";
+import SubscriptionCard from "@/components/SubscriptionCard";
 
 const ProfilePage: React.FC = () => {
 	const navigate = useNavigate();
-	const { user, loading, error, logout } = useAuth();
+	const { user, userLoading, userError, logout } = useAuth();
 	const [passwordData, setPasswordData] = React.useState({
 		current: "",
 		new: "",
 		confirm: "",
 	});
 
-	if (loading) return <div>Loading profile…</div>;
-	if (error || !user)
+	if (userLoading) return <div>Loading profile…</div>;
+	if (userError || !user)
 		return <div>Error loading profile. Please try again later.</div>;
 
 	const handlePasswordUpdate = (e: React.FormEvent) => {
@@ -110,6 +111,9 @@ const ProfilePage: React.FC = () => {
 							</div>
 						</CardContent>
 					</Card>
+
+					{/* Subscription Status */}
+					<SubscriptionCard />
 
 					{/* Change Password */}
 					<Card>

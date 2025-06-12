@@ -158,18 +158,6 @@ const DashboardPage = () => {
 
 					<Card className="cursor-pointer hover:shadow-md transition-shadow">
 						<CardHeader>
-							<CardTitle className="text-lg">Subscription</CardTitle>
-							<CardDescription>Manage your plan and billing</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<Button variant="outline" asChild className="w-full">
-								<Link to={ROUTES.PAGES.SUBSCRIPTION}>View Details</Link>
-							</Button>
-						</CardContent>
-					</Card>
-
-					<Card className="cursor-pointer hover:shadow-md transition-shadow">
-						<CardHeader>
 							<CardTitle className="text-lg">Profile</CardTitle>
 							<CardDescription>Update your account settings</CardDescription>
 						</CardHeader>

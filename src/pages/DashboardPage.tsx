@@ -22,6 +22,7 @@ import {
 import { toast } from "sonner";
 import apiCaller from "@/lib/ApiCaller"; // Import your API caller
 import { API_ROUTES } from "@/constants/ApiRoutes"; // Import your API routes
+import { ROUTES } from "@/constants/routes";
 
 const DashboardPage = () => {
 	const [isGmailSynced, setIsGmailSynced] = useState(false);
@@ -30,7 +31,7 @@ const DashboardPage = () => {
 	// Sync Gmail with /gmail/init/
 	const handleSyncGmail = async () => {
 		try {
-			const response = await apiCaller("/gmail/init/", "GET");
+			const response = await apiCaller(API_ROUTES.GMAIL.INIT, "GET");
 			const authUrl = response.data.auth_url;
 
 			// Open the authentication URL for the user to login
@@ -49,7 +50,7 @@ const DashboardPage = () => {
 	// Fetch all emails from /emails/
 	const fetchEmails = async () => {
 		try {
-			const response = await apiCaller("/emails/", "GET");
+			const response = await apiCaller(API_ROUTES.EMAILS.GET, "GET");
 			setEmails(response.data); // Store the fetched emails in state
 		} catch (error) {
 			toast.error("Failed to fetch emails.");
@@ -116,7 +117,7 @@ const DashboardPage = () => {
 						</CardHeader>
 						<CardContent>
 							<Button variant="outline" asChild className="w-full">
-								<Link to="/rules">Get Started</Link>
+								<Link to={ROUTES.PAGES.RULES}>Get Started</Link>
 							</Button>
 						</CardContent>
 					</Card>
@@ -130,7 +131,7 @@ const DashboardPage = () => {
 						</CardHeader>
 						<CardContent>
 							<Button variant="outline" asChild className="w-full">
-								<Link to="/filtering">Filter Now</Link>
+								<Link to={ROUTES.PAGES.FILTERING}>Filter Now</Link>
 							</Button>
 						</CardContent>
 					</Card>
@@ -142,7 +143,7 @@ const DashboardPage = () => {
 						</CardHeader>
 						<CardContent>
 							<Button variant="outline" asChild className="w-full">
-								<Link to="/subscription">View Details</Link>
+								<Link to={ROUTES.PAGES.SUBSCRIPTION}>View Details</Link>
 							</Button>
 						</CardContent>
 					</Card>
@@ -154,7 +155,7 @@ const DashboardPage = () => {
 						</CardHeader>
 						<CardContent>
 							<Button variant="outline" asChild className="w-full">
-								<Link to="/profile">Edit Profile</Link>
+								<Link to={ROUTES.PAGES.PROFILE}>Edit Profile</Link>
 							</Button>
 						</CardContent>
 					</Card>

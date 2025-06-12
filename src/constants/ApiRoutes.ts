@@ -1,5 +1,3 @@
-import { Ruler } from "lucide-react";
-
 export const API_ROUTES = {
 	AUTH: {
 		LOGIN: "/login/",

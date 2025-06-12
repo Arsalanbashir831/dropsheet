@@ -14,6 +14,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
+import { ROUTES } from "@/constants/routes";
 
 // Define form data interface
 interface FormData {
@@ -34,24 +35,20 @@ const LoginPage = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
 
-	console.log("LoginPage rendered");
-	console.log("Current formData:", formData);
-
 	// Mutation for login
 	const loginMutation = useMutation({
 		mutationFn: (data: { username: string; password: string }) =>
 			apiCaller(API_ROUTES.AUTH.LOGIN, "POST", data, {}, false),
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		onError: (error: any) => {
 			const msg = error?.response?.data?.detail || "Login failed!";
 			toast.error(msg);
-			console.error("Login error:", error);
 		},
 		onSuccess: (data) => {
-			console.log("Login successful:", data);
 			localStorage.setItem("accessToken", data.data.access);
 			localStorage.setItem("refreshToken", data.data.refresh);
 			toast.success("Logged in successfully!");
-			navigate("/dashboard");
+			navigate(ROUTES.PAGES.DASHBOARD);
 		},
 	});
 
@@ -59,13 +56,13 @@ const LoginPage = () => {
 	const signupMutation = useMutation({
 		mutationFn: (data: { username: string; email: string; password: string }) =>
 			apiCaller(API_ROUTES.AUTH.SIGNUP, "POST", data, {}, false),
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		onError: (error: any) => {
 			const msg = error?.response?.data?.detail || "Signup failed!";
 			toast.error(msg);
 			console.error("Signup error:", error);
 		},
 		onSuccess: () => {
-			console.log("Signup successful");
 			toast.success("Account created successfully!");
 			// Auto-login after signup
 			loginMutation.mutate({

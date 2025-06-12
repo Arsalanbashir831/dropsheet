@@ -19,6 +19,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
 import apiCaller from "@/lib/ApiCaller"; // Import your API caller
 import { API_ROUTES } from "@/constants/ApiRoutes"; // Import your API routes
+import { Link } from "react-router-dom";
+import { ROUTES } from "@/constants/routes";
 
 interface Rule {
 	id: number;
@@ -115,9 +117,11 @@ const FilteringPage = () => {
 
 							{rules.length === 0 && (
 								<p className="text-sm text-gray-600">
-									<a href="/rules" className="text-green-600 hover:underline">
+									<Link
+										to={ROUTES.PAGES.RULES}
+										className="text-green-600 hover:underline">
 										Create a rule first
-									</a>
+									</Link>
 								</p>
 							)}
 						</CardContent>
@@ -191,9 +195,11 @@ const FilteringPage = () => {
 								<AlertDescription>
 									<strong>Note:</strong> Each rule has its own unique DropSheet.
 									You can manage your rules in the{" "}
-									<a href="/rules" className="text-green-600 hover:underline">
+									<Link
+										to={ROUTES.PAGES.RULES}
+										className="text-green-600 hover:underline">
 										Rules page
-									</a>
+									</Link>
 									.
 								</AlertDescription>
 							</Alert>

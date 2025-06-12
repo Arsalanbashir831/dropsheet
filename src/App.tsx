@@ -1,8 +1,5 @@
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
 
 // Pages
 import LoginPage from "./pages/LoginPage";
@@ -13,48 +10,44 @@ import PricingPage from "./pages/PricingPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import ProfilePage from "./pages/ProfilePage";
 import EmailsPage from "./pages/EmailsPage";
+import { Toaster } from "sonner";
+import NotFound from "./pages/NotFound";
+import { ROUTES } from "./constants/routes";
 
 const queryClient = new QueryClient();
 
-// Mock authentication state
-export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  
-  const login = (email: string, name: string) => {
-    setIsAuthenticated(true);
-    setUser({ name, email });
-  };
-  
-  const logout = () => {
-    setIsAuthenticated(false);
-    setUser(null);
-  };
-  
-  return { isAuthenticated, user, login, logout };
-};
-
 const App = () => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <div className="min-h-screen bg-white">
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/rules" element={<RulesPage />} />
-            <Route path="/filtering" element={<FilteringPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/subscription" element={<SubscriptionPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/emails" element={<EmailsPage />} />
-            <Route path="/" element={<Navigate to="/login" replace />} />
-          </Routes>
-          <Toaster />
-        </div>
-      </BrowserRouter>
-    </QueryClientProvider>
-  );
+	return (
+		<QueryClientProvider client={queryClient}>
+			<BrowserRouter>
+				<div className="min-h-screen bg-white">
+					<Routes>
+						<Route path={ROUTES.PAGES.LOGIN} element={<LoginPage />} />
+						<Route path={ROUTES.PAGES.DASHBOARD} element={<DashboardPage />} />
+						<Route path={ROUTES.PAGES.RULES} element={<RulesPage />} />
+						<Route path={ROUTES.PAGES.FILTERING} element={<FilteringPage />} />
+						<Route path={ROUTES.PAGES.PRICING} element={<PricingPage />} />
+						<Route
+							path={ROUTES.PAGES.SUBSCRIPTION}
+							element={<SubscriptionPage />}
+						/>
+						<Route path={ROUTES.PAGES.PROFILE} element={<ProfilePage />} />
+						<Route path={ROUTES.PAGES.EMAILS} element={<EmailsPage />} />
+
+						{/* Redirect root to /login */}
+						<Route
+							path="/"
+							element={<Navigate to={ROUTES.PAGES.LOGIN} replace />}
+						/>
+
+						{/* ★ Catch-all: render NotFoundPage for any other URL */}
+						<Route path="*" element={<NotFound />} />
+					</Routes>
+					<Toaster richColors />
+				</div>
+			</BrowserRouter>
+		</QueryClientProvider>
+	);
 };
 
 export default App;

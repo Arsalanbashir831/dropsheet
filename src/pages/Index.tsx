@@ -1,15 +1,15 @@
-
+import { ROUTES } from "@/constants/routes";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  useEffect(() => {
-    navigate("/login");
-  }, [navigate]);
+	useEffect(() => {
+		navigate(ROUTES.PAGES.LOGIN);
+	}, [navigate]);
 
-  return null;
+	return null;
 };
 
 export default Index;

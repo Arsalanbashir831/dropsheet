@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ROUTES } from "@/constants/routes";
-import { useUser } from "@/hooks/use-user";
+import { useAuth } from "@/hooks/use-auth";
 
 interface LayoutProps {
 	children: ReactNode;
@@ -18,15 +18,9 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { user } = useUser();
+	const { user, logout } = useAuth();
 
 	const isActive = (path: string) => location.pathname === path;
-
-	const handleLogout = () => {
-		navigate(ROUTES.PAGES.LOGIN);
-		localStorage.removeItem("accessToken");
-		localStorage.removeItem("refreshToken");
-	};
 
 	return (
 		<div className="min-h-screen bg-white">
@@ -117,9 +111,7 @@ const Layout = ({ children }: LayoutProps) => {
 										All Emails
 									</Link>
 								</DropdownMenuItem>
-								<DropdownMenuItem
-									onClick={handleLogout}
-									className="cursor-pointer">
+								<DropdownMenuItem onClick={logout} className="cursor-pointer">
 									Logout
 								</DropdownMenuItem>
 							</DropdownMenuContent>

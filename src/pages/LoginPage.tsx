@@ -1,8 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query"; // Import useMutation from react-query
-import apiCaller from "@/lib/ApiCaller";
-import { API_ROUTES } from "@/constants/ApiRoutes";
+import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,7 +14,6 @@ import {
 import { toast } from "sonner";
 import { ROUTES } from "@/constants/routes";
 
-// Define form data interface
 interface FormData {
 	name: string;
 	email: string;
@@ -24,7 +21,8 @@ interface FormData {
 	confirmPassword: string;
 }
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
+	const { user, login, signup, loading } = useAuth();
 	const [isLogin, setIsLogin] = useState(true);
 	const [formData, setFormData] = useState<FormData>({
 		name: "",
@@ -35,78 +33,44 @@ const LoginPage = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
 
-	// Mutation for login
-	const loginMutation = useMutation({
-		mutationFn: (data: { username: string; password: string }) =>
-			apiCaller(API_ROUTES.AUTH.LOGIN, "POST", data, {}, false),
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		onError: (error: any) => {
-			const msg = error?.response?.data?.detail || "Login failed!";
-			toast.error(msg);
-		},
-		onSuccess: (data) => {
-			localStorage.setItem("accessToken", data.data.access);
-			localStorage.setItem("refreshToken", data.data.refresh);
-			toast.success("Logged in successfully!");
-			navigate(ROUTES.PAGES.DASHBOARD);
-		},
-	});
-
-	// Mutation for signup
-	const signupMutation = useMutation({
-		mutationFn: (data: { username: string; email: string; password: string }) =>
-			apiCaller(API_ROUTES.AUTH.SIGNUP, "POST", data, {}, false),
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		onError: (error: any) => {
-			const msg = error?.response?.data?.detail || "Signup failed!";
-			toast.error(msg);
-			console.error("Signup error:", error);
-		},
-		onSuccess: () => {
-			toast.success("Account created successfully!");
-			// Auto-login after signup
-			loginMutation.mutate({
-				username: formData.name,
-				password: formData.password,
-			});
-		},
-	});
+	// If already logged in, redirect
+	if (user) {
+		navigate(ROUTES.PAGES.DASHBOARD);
+		return null;
+	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		// Ensure passwords match only when signing up
 		if (!isLogin && formData.password !== formData.confirmPassword) {
 			toast.error("Passwords do not match");
 			return;
 		}
-
-		// Check if username is empty before sending the request
 		if (!formData.name.trim()) {
-			toast.error("Username is required!");
+			toast.error("Username is required");
 			return;
 		}
 
-		// Use the mutate method for login/signup
-		if (isLogin) {
-			loginMutation.mutate({
-				username: formData.name,
-				password: formData.password,
-			});
-		} else {
-			signupMutation.mutate({
-				username: formData.name, // Use name for signup
-				email: formData.email,
-				password: formData.password,
-			});
+		try {
+			if (isLogin) {
+				await login(formData.name, formData.password);
+				toast.success("Logged in successfully!");
+			} else {
+				await signup(formData.name, formData.email, formData.password);
+				toast.success("Account created successfully!");
+			}
+			navigate(ROUTES.PAGES.DASHBOARD);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (err: any) {
+			const msg =
+				err?.response?.data?.detail ||
+				(isLogin ? "Login failed" : "Signup failed");
+			toast.error(msg);
 		}
 	};
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFormData((prev) => ({
-			...prev,
-			[e.target.name]: e.target.value,
-		}));
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
 
 	return (
@@ -120,15 +84,11 @@ const LoginPage = () => {
 						{isLogin ? "Welcome Back!" : "Create Your Account"}
 					</CardTitle>
 					<CardDescription>
-						{isLogin
-							? "Sign in to your account to continue"
-							: "Get started with DropSheet today"}
+						{isLogin ? "Sign in to continue" : "Get started today"}
 					</CardDescription>
 				</CardHeader>
-
 				<CardContent>
 					<form onSubmit={handleSubmit} className="space-y-4">
-						{/* Conditional username input */}
 						<div className="space-y-2">
 							<Label htmlFor="name">Username</Label>
 							<Input
@@ -136,12 +96,11 @@ const LoginPage = () => {
 								name="name"
 								type="text"
 								value={formData.name}
-								onChange={handleInputChange}
+								onChange={handleChange}
 								required={!isLogin}
 								placeholder="Enter your username"
 							/>
 						</div>
-
 						{!isLogin && (
 							<div className="space-y-2">
 								<Label htmlFor="email">Email Address</Label>
@@ -150,13 +109,12 @@ const LoginPage = () => {
 									name="email"
 									type="email"
 									value={formData.email}
-									onChange={handleInputChange}
+									onChange={handleChange}
 									required
 									placeholder="Enter your email"
 								/>
 							</div>
 						)}
-
 						<div className="space-y-2">
 							<Label htmlFor="password">Password</Label>
 							<div className="relative">
@@ -165,7 +123,7 @@ const LoginPage = () => {
 									name="password"
 									type={showPassword ? "text" : "password"}
 									value={formData.password}
-									onChange={handleInputChange}
+									onChange={handleChange}
 									required
 									placeholder="Enter your password"
 								/>
@@ -173,13 +131,12 @@ const LoginPage = () => {
 									type="button"
 									variant="ghost"
 									size="sm"
-									className="absolute right-2 top-1/2 -translate-y-1/2 h-auto p-1"
+									className="absolute right-2 top-1/2 -translate-y-1/2 p-1"
 									onClick={() => setShowPassword(!showPassword)}>
 									{showPassword ? "Hide" : "Show"}
 								</Button>
 							</div>
 						</div>
-
 						{!isLogin && (
 							<div className="space-y-2">
 								<Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -188,38 +145,32 @@ const LoginPage = () => {
 									name="confirmPassword"
 									type="password"
 									value={formData.confirmPassword}
-									onChange={handleInputChange}
+									onChange={handleChange}
 									required={!isLogin}
 									placeholder="Confirm your password"
 								/>
 							</div>
 						)}
-
 						{isLogin && (
 							<div className="text-right">
-								<Button variant="link" className="h-auto p-0 text-green-600">
+								<Button variant="link" className="p-0 text-green-600">
 									Forgot Password?
 								</Button>
 							</div>
 						)}
-
 						<Button
 							type="submit"
 							className="w-full bg-green-600 hover:bg-green-700"
-							disabled={
-								loginMutation.status === "pending" ||
-								signupMutation.status === "pending"
-							}>
+							disabled={loading}>
 							{isLogin ? "Sign In" : "Create Account"}
 						</Button>
 					</form>
-
 					<div className="mt-6 text-center">
 						<p className="text-sm text-gray-600">
-							{isLogin ? "Don't have an account?" : "Already have an account?"}
+							{isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
 							<Button
 								variant="link"
-								className="h-auto p-0 ml-1 text-green-600"
+								className="p-0 text-green-600"
 								onClick={() => setIsLogin(!isLogin)}>
 								{isLogin ? "Create one" : "Sign in"}
 							</Button>

@@ -14,19 +14,19 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
-import { useUser } from "@/hooks/use-user";
+import { useAuth } from "@/hooks/use-auth";
 
 const ProfilePage: React.FC = () => {
 	const navigate = useNavigate();
-	const { user, isLoading, isError } = useUser();
+	const { user, loading, error, logout } = useAuth();
 	const [passwordData, setPasswordData] = React.useState({
 		current: "",
 		new: "",
 		confirm: "",
 	});
 
-	if (isLoading) return <div>Loading profile…</div>;
-	if (isError || !user)
+	if (loading) return <div>Loading profile…</div>;
+	if (error || !user)
 		return <div>Error loading profile. Please try again later.</div>;
 
 	const handlePasswordUpdate = (e: React.FormEvent) => {
@@ -54,13 +54,6 @@ const ProfilePage: React.FC = () => {
 			toast.success("Account deletion initiated");
 			setTimeout(() => navigate(ROUTES.PAGES.LOGIN), 2000);
 		}
-	};
-
-	const handleLogout = () => {
-		toast.success("Logged out successfully");
-		localStorage.removeItem("accessToken");
-		localStorage.removeItem("refreshToken");
-		navigate(ROUTES.PAGES.LOGIN);
 	};
 
 	return (
@@ -214,7 +207,7 @@ const ProfilePage: React.FC = () => {
 									onClick={handleDeleteAccount}>
 									Delete Account
 								</Button>
-								<Button variant="outline" onClick={handleLogout}>
+								<Button variant="outline" onClick={logout}>
 									Logout
 								</Button>
 							</div>

@@ -16,4 +16,9 @@ export const API_ROUTES = {
 	EMAILS: {
 		GET: "/emails/",
 	},
+	BILLING: {
+		PLANS: "/billing/plans/",
+		STATUS: "/billing/status/",
+		CHECKOUT_SESSION: "/billing/create-checkout-session/",
+	},
 } as const;

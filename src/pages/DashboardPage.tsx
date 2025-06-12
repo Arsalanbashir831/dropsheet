@@ -23,10 +23,10 @@ import { toast } from "sonner";
 import apiCaller from "@/lib/ApiCaller"; // Import your API caller
 import { API_ROUTES } from "@/constants/ApiRoutes"; // Import your API routes
 import { ROUTES } from "@/constants/routes";
-import { useUser } from "@/hooks/use-user";
+import { useAuth } from "@/hooks/use-auth";
 
 const DashboardPage = () => {
-	const { user } = useUser();
+	const { user } = useAuth();
 	const [isGmailSynced, setIsGmailSynced] = useState(false);
 	const [emails, setEmails] = useState([]);
 
@@ -114,9 +114,7 @@ const DashboardPage = () => {
 							className={`font-medium ${
 								isGmailSynced ? "text-green-600" : "text-red-500"
 							}`}>
-							{isGmailSynced
-								? "Connected: arslan@gmail.com"
-								: "Gmail not connected"}
+							{isGmailSynced ? "Connected" : "Gmail not connected"}
 						</span>
 					</div>
 					<div className="flex gap-3">

@@ -13,15 +13,15 @@ import EmailsPage from "./pages/EmailsPage";
 import { Toaster } from "sonner";
 import NotFound from "./pages/NotFound";
 import { ROUTES } from "./constants/routes";
-import { UserProvider } from "./Providers/UserProvider";
+import { AuthProvider } from "./Providers/AuthProvider";
 
 const queryClient = new QueryClient();
 
 const App = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<UserProvider>
-				<BrowserRouter>
+			<BrowserRouter>
+				<AuthProvider>
 					<div className="min-h-screen bg-white">
 						<Routes>
 							<Route path={ROUTES.PAGES.LOGIN} element={<LoginPage />} />
@@ -53,8 +53,8 @@ const App = () => {
 						</Routes>
 						<Toaster richColors />
 					</div>
-				</BrowserRouter>
-			</UserProvider>
+				</AuthProvider>
+			</BrowserRouter>
 		</QueryClientProvider>
 	);
 };

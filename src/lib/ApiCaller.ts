@@ -5,7 +5,7 @@ type RequestData =
 	| Record<string, string | number | boolean | File | Blob>
 	| FormData;
 
-const API_BASE = import.meta.env.VITE_REACT_APP_BACKEND_URL;
+const API_BASE = 'https://api.sheetdrop.co';
 
 // Create a single Axios instance for your API
 const api = axios.create({

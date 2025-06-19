@@ -13,6 +13,7 @@ import { Toaster } from "sonner";
 import NotFound from "./pages/NotFound";
 import { ROUTES } from "./constants/routes";
 import { AuthProvider } from "./Providers/AuthProvider";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,8 @@ const App = () => {
 			<BrowserRouter>
 				<AuthProvider>
 					<div className="min-h-screen bg-white">
-						<Routes>
+                        <Routes>
+                            <Route path={ROUTES.PAGES.HOME} element={<Index />} />
 							<Route path={ROUTES.PAGES.LOGIN} element={<LoginPage />} />
 							<Route
 								path={ROUTES.PAGES.DASHBOARD}

@@ -23,7 +23,8 @@ export default {
 				'sans': ['Roboto', 'ui-sans-serif', 'system-ui'],
 			},
 			colors: {
-				border: 'hsl(var(--border))',
+                border: 'hsl(var(--border))',
+                
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
@@ -65,7 +66,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+                },
+                brand: {
+                    purple: '#9b87f5',
+                    'purple-light': '#E5DEFF',
+                    'purple-dark': '#7E69AB',
+                    blue: '#33C3F0',
+                    gray: '#F6F6F7',
+                    'gray-dark': '#8E9196',
+                }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -1,7 +1,32 @@
-
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ROUTES } from "@/constants/routes";
+import { Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { useCookieConsent, CookiePreferences } from "@/hooks/use-cookie-consent";
 
 const Footer = () => {
+  const [showCookieSettings, setShowCookieSettings] = useState(false);
+  const { preferences, updatePreferences } = useCookieConsent();
+
+  const handlePreferenceChange = (category: keyof CookiePreferences, value: boolean) => {
+    if (category === "necessary") return; // Cannot disable necessary cookies
+    updatePreferences({
+      ...preferences,
+      [category]: value,
+    });
+  };
+
   return (
     <footer className="bg-gray-50 pt-12 pb-8">
       <div className="page-container">
@@ -38,7 +63,7 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2">
               <li><a href="#" className="text-gray-600 hover:text-brand-purple">About</a></li>
-              <li><Link to="/privacy" className="text-gray-600 hover:text-brand-purple">Privacy & Terms</Link></li>
+              <li><Link to={ROUTES.PAGES.PRIVACY} className="text-gray-600 hover:text-brand-purple">Privacy & Terms</Link></li>
             </ul>
           </div>
         </div>
@@ -46,7 +71,113 @@ const Footer = () => {
         <div className="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-500 text-sm">© 2023 SheetDrop. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/privacy" className="text-sm text-gray-500 hover:text-brand-purple">Privacy & Terms</Link>
+            <Dialog open={showCookieSettings} onOpenChange={setShowCookieSettings}>
+              <DialogTrigger asChild>
+                <button className="text-sm text-gray-500 hover:text-brand-purple flex items-center gap-1">
+                  <Settings className="w-3 h-3" />
+                  Cookie Settings
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl max-h-[80vh] overflow-auto">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center gap-2">
+                    <Settings className="w-5 h-5" />
+                    Cookie Preferences
+                  </DialogTitle>
+                  <DialogDescription>
+                    Manage your cookie preferences. You can change these settings at any time.
+                  </DialogDescription>
+                </DialogHeader>
+                
+                <div className="space-y-6 mt-6">
+                  {/* Necessary Cookies */}
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Label htmlFor="necessary-footer" className="font-medium">Necessary Cookies</Label>
+                        <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Always Active</span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        These cookies are essential for the website to function properly.
+                      </p>
+                    </div>
+                    <Switch
+                      id="necessary-footer"
+                      checked={preferences.necessary}
+                      disabled
+                      className="ml-4"
+                    />
+                  </div>
+
+                  {/* Analytics Cookies */}
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Label htmlFor="analytics-footer" className="font-medium">Analytics Cookies</Label>
+                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Optional</span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        These cookies help us understand how visitors interact with our website.
+                      </p>
+                    </div>
+                    <Switch
+                      id="analytics-footer"
+                      checked={preferences.analytics}
+                      onCheckedChange={(checked) => handlePreferenceChange("analytics", checked)}
+                      className="ml-4"
+                    />
+                  </div>
+
+                  {/* Marketing Cookies */}
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Label htmlFor="marketing-footer" className="font-medium">Marketing Cookies</Label>
+                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Optional</span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        These cookies are used to track visitors across websites for advertising.
+                      </p>
+                    </div>
+                    <Switch
+                      id="marketing-footer"
+                      checked={preferences.marketing}
+                      onCheckedChange={(checked) => handlePreferenceChange("marketing", checked)}
+                      className="ml-4"
+                    />
+                  </div>
+
+                  {/* Functional Cookies */}
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Label htmlFor="functional-footer" className="font-medium">Functional Cookies</Label>
+                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Optional</span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        These cookies enable enhanced functionality and personalization.
+                      </p>
+                    </div>
+                    <Switch
+                      id="functional-footer"
+                      checked={preferences.functional}
+                      onCheckedChange={(checked) => handlePreferenceChange("functional", checked)}
+                      className="ml-4"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-6 border-t">
+                  <Button 
+                    onClick={() => setShowCookieSettings(false)}
+                    className="flex-1"
+                  >
+                    Save & Close
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+            <Link to={ROUTES.PAGES.PRIVACY} className="text-sm text-gray-500 hover:text-brand-purple">Privacy & Terms</Link>
           </div>
         </div>
       </div>

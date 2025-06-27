@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, HelpCircle, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ROUTES } from "@/constants/routes";
 import {
   Dialog,
   DialogContent,
@@ -139,6 +139,12 @@ const Navbar = () => {
                   </div>
                 </DialogContent>
               </Dialog>
+              <Link 
+                to={ROUTES.PAGES.PRIVACY} 
+                className="text-gray-600 hover:text-brand-purple transition-colors font-medium"
+              >
+                Privacy
+              </Link>
             </div>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" asChild>
@@ -232,6 +238,13 @@ const Navbar = () => {
                 </div>
               </DialogContent>
             </Dialog>
+            <Link 
+              to={ROUTES.PAGES.PRIVACY} 
+              className="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded w-full text-left"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Privacy
+            </Link>
             <div className="pt-2 flex flex-col space-y-2">
               <Button variant="ghost" className="justify-start" asChild>
                 <Link to="/login">Log in</Link>

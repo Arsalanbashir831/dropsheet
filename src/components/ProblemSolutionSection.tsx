@@ -84,7 +84,7 @@ const ProblemSolutionSection = () => {
               </div>
               <div className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-gray-700">One-time payment of $50 - no monthly fees ever</p>
+                <p className="text-gray-700">One-time payment of $25 - no monthly fees ever</p>
               </div>
             </div>
 

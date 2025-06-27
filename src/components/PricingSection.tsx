@@ -24,7 +24,7 @@ const PricingSection = () => {
     {
       name: "Lifetime Access",
       originalPrice: "$87",
-      price: "$50",
+      price: "$25",
       period: "once, own forever",
       description: "The smart choice that pays for itself in 2 days",
       features: [
@@ -50,7 +50,7 @@ const PricingSection = () => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Choose Your Email Freedom Plan</h2>
           <p className="text-lg text-gray-600">
-            While expensive tools charge $50-200/month, SheetDrop gives you lifetime access 
+            While expensive tools charge $25-200/month, SheetDrop gives you lifetime access 
             for what Zapier costs in 3 days.
           </p>
         </div>
@@ -122,7 +122,7 @@ const PricingSection = () => {
             </div>
             <div>
               <div className="text-green-700 font-bold mb-2">✅ SheetDrop</div>
-              <div className="text-2xl font-bold text-green-600">$50 once</div>
+              <div className="text-2xl font-bold text-green-600">$25 once</div>
               <div className="text-sm text-green-600">Simple, forever yours</div>
             </div>
           </div>
@@ -206,7 +206,7 @@ const PricingSection = () => {
                       </div>
                       <div className="flex justify-between items-center bg-white rounded-lg p-3 text-sm">
                         <span className="text-gray-700">SheetDrop cost:</span>
-                        <span className="font-bold text-green-700">$50 once</span>
+                        <span className="font-bold text-green-700">$25 once</span>
                       </div>
                       <div className="border-t-2 border-green-200 pt-3">
                         <div className="flex justify-between items-center bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg p-3 font-bold">

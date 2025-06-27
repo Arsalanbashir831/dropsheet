@@ -8,7 +8,7 @@ const CTASection = () => {
     <section className="py-16 md:py-20 bg-gradient-to-br from-brand-purple to-brand-blue text-white relative overflow-hidden">
       {/* Warm Urgency Banner */}
       <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-2 text-center text-sm font-bold z-10">
-        ⏰ LIMITED TIME: Only 73 lifetime spots left at $50 (Regular price $87)
+        ⏰ LIMITED TIME: Only 73 lifetime spots left at $25 (Regular price $87)
       </div>
       
       <div className="page-container pt-12">
@@ -33,7 +33,7 @@ const CTASection = () => {
               <DollarSign className="w-8 h-8 mx-auto mb-2" />
               <div className="font-bold">Track Every Dollar</div>
               <div className="text-sm text-white/80">Never miss order amounts</div>
-              <div className="text-xs text-green-300 mt-2">Prevent: $500+ losses</div>
+              <div className="text-xs text-green-300 mt-2">Prevent: $250+ losses</div>
             </div>
             <div className="bg-white/10 backdrop-blur rounded-lg p-4 hover:bg-white/20 transition-all cursor-pointer">
               <div className="text-2xl mb-2">🚫</div>
@@ -51,7 +51,7 @@ const CTASection = () => {
               asChild
             >
               <Link to="/login">
-                Get Lifetime Access - $50 <ArrowRight className="ml-2 h-6 w-6" />
+                Get Lifetime Access - $25 <ArrowRight className="ml-2 h-6 w-6" />
               </Link>
             </Button>
             <Button 

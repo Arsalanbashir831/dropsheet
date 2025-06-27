@@ -17,7 +17,7 @@ const audiences = [
     description: "Track walk-in sales, online orders, and supplier emails without drowning in manual paperwork and scattered data.",
     painPoint: "Missing orders buried in email inbox",
     solution: "Never miss a sale or inquiry again",
-    savings: "Prevent $500+ in lost orders"
+    savings: "Prevent $250+ in lost orders"
   },
   {
     icon: <Clock className="w-10 h-10 text-brand-purple" />,

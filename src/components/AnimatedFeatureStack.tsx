@@ -18,7 +18,7 @@ const AnimatedFeatureStack = () => {
       icon: <DollarSign className="w-6 h-6 text-green-600" />,
       title: "Smart Revenue Tracking", 
       description: "Extract order amounts, customer details, and payment info automatically. Never lose track of a sale again.",
-      badge: "Prevent $500+ in missed orders",
+      badge: "Prevent $250+ in missed orders",
       color: "green"
     },
     {

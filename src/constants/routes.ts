@@ -9,5 +9,6 @@ export const ROUTES = {
 		SUBSCRIPTION: "/subscription/",
 		PROFILE: "/profile/",
 		EMAILS: "/emails/",
+		PRIVACY: "/privacy/",
 	},
 } as const;

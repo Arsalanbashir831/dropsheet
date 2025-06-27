@@ -11,7 +11,7 @@ const HeroSection = () => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Warm Early Access Banner */}
           <div className="mb-6 inline-block px-6 py-3 bg-gradient-to-r from-yellow-100 to-orange-100 text-orange-800 rounded-full text-sm font-bold animate-fade-in border border-orange-300">
-            🎉 Limited Time: Lifetime Access Just $50 (Usually $87) 🎉
+            🎉 Limited Time: Lifetime Access Just $25 (Usually $87) 🎉
           </div>
 
           {/* Problem Statement Banner */}
@@ -61,7 +61,7 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button size="lg" className="text-base hover:scale-105 transition-transform bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 px-8 py-4" asChild>
               <Link to="/login">
-                Get Lifetime Access - $50 <ArrowRight className="ml-2 h-5 w-5" />
+                Get Lifetime Access - $25 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="text-base px-8 py-4 border-2" asChild>

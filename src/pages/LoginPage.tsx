@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
@@ -33,11 +33,11 @@ const LoginPage: React.FC = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
 
-	// If already logged in, redirect
-	if (user) {
-		navigate(ROUTES.PAGES.DASHBOARD);
-		return null;
-	}
+    useEffect(() => {
+        if (user) {
+            navigate(ROUTES.PAGES.DASHBOARD);
+        }
+    }, [user, navigate]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -160,7 +160,8 @@ const LoginPage: React.FC = () => {
 						)}
 
 						<Button
-							type="submit"
+                            type="submit"
+                            
 							className="w-full bg-green-600 hover:bg-green-700"
 							disabled={userLoading}>
 							{isLogin ? "Sign In" : "Create Account"}
@@ -170,7 +171,8 @@ const LoginPage: React.FC = () => {
 						<p className="text-sm text-gray-600">
 							{isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
 							<Button
-								variant="link"
+                                variant="link"
+                                type="button"   
 								className="p-0 text-green-600"
 								onClick={() => setIsLogin(!isLogin)}>
 								{isLogin ? "Create one" : "Sign in"}

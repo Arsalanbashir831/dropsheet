@@ -1,5 +1,6 @@
 export const ROUTES = {
-	PAGES: {
+    PAGES: {
+        HOME:"/",
 		LOGIN: "/login/",
 		DASHBOARD: "/dashboard/",
 		RULES: "/rules/",
@@ -8,5 +9,6 @@ export const ROUTES = {
 		SUBSCRIPTION: "/subscription/",
 		PROFILE: "/profile/",
 		EMAILS: "/emails/",
+		PRIVACY: "/privacy/",
 	},
 } as const;

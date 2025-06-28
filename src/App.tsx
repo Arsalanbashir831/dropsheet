@@ -10,6 +10,7 @@ import PricingPage from "./pages/PricingPage";
 import ProfilePage from "./pages/ProfilePage";
 import EmailsPage from "./pages/EmailsPage";
 import PrivacyPage from "./pages/PrivacyPage";
+import TermsPage from "./pages/TermsPage";
 import { Toaster } from "sonner";
 import NotFound from "./pages/NotFound";
 import { ROUTES } from "./constants/routes";
@@ -43,6 +44,7 @@ const App = () => {
 								<Route path={ROUTES.PAGES.PROFILE} element={<ProfilePage />} />
 								<Route path={ROUTES.PAGES.EMAILS} element={<EmailsPage />} />
 								<Route path={ROUTES.PAGES.PRIVACY} element={<PrivacyPage />} />
+								<Route path={ROUTES.PAGES.TERMS} element={<TermsPage />} />
 
 								{/* Redirect root to /login */}
 								<Route

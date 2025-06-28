@@ -10,5 +10,6 @@ export const ROUTES = {
 		PROFILE: "/profile/",
 		EMAILS: "/emails/",
 		PRIVACY: "/privacy/",
+		TERMS: "/terms/",
 	},
 } as const;

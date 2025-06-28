@@ -63,7 +63,8 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2">
               <li><a href="#" className="text-gray-600 hover:text-brand-purple">About</a></li>
-              <li><Link to={ROUTES.PAGES.PRIVACY} className="text-gray-600 hover:text-brand-purple">Privacy & Terms</Link></li>
+              <li><Link to={ROUTES.PAGES.PRIVACY} className="text-gray-600 hover:text-brand-purple">Privacy Policy</Link></li>
+              <li><Link to={ROUTES.PAGES.TERMS} className="text-gray-600 hover:text-brand-purple">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
@@ -177,7 +178,8 @@ const Footer = () => {
                 </div>
               </DialogContent>
             </Dialog>
-            <Link to={ROUTES.PAGES.PRIVACY} className="text-sm text-gray-500 hover:text-brand-purple">Privacy & Terms</Link>
+            <Link to={ROUTES.PAGES.PRIVACY} className="text-sm text-gray-500 hover:text-brand-purple">Privacy Policy</Link>
+            <Link to={ROUTES.PAGES.TERMS} className="text-sm text-gray-500 hover:text-brand-purple">Terms of Service</Link>
           </div>
         </div>
       </div>

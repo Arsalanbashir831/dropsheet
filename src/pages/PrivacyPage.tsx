@@ -26,8 +26,8 @@ const PrivacyPage = () => {
               <p className="text-gray-700 mb-4">
                 SheetDrop ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our email automation service that processes emails and extracts data to Google Sheets.
               </p>
-              <p className="text-gray-700">
-                By using our service, you agree to the collection and use of information in accordance with this policy.
+              <p className="text-gray-700 mb-4">
+                By using our service, you agree to the collection and use of information in accordance with this policy. This Privacy Policy should be read in conjunction with our <Link to="/terms" className="text-brand-purple hover:underline">Terms of Service</Link>.
               </p>
             </section>
 

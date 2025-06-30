@@ -56,6 +56,17 @@ const FilteringPage = () => {
 			return;
 		}
 
+		const rule = rules.find((r) => r.id.toString() === selectedRule);
+		if (!rule) {
+			toast.error("Selected rule not found");
+			return;
+		}
+
+		if (!rule.google_sheet_id) {
+			toast.info("Please wait up to 10 minutes while your Google Sheet is being generated.");
+			return;
+		}
+
 		setIsGenerating(true);
 
 		// Simulate API call to generate DropSheet (replace with real API if needed)
@@ -160,7 +171,9 @@ const FilteringPage = () => {
 												<div className="flex gap-3">
 													<Button
 														asChild
-														className="bg-green-600 hover:bg-green-700">
+														className="bg-green-600 hover:bg-green-700"
+														disabled={!rules.find((rule) => rule.id.toString() === selectedRule)?.google_sheet_id}
+													>
 														<a
 															href={`https://docs.google.com/spreadsheets/d/${
 																rules.find(
@@ -174,13 +187,15 @@ const FilteringPage = () => {
 													</Button>
 													<Button
 														variant="outline"
+														disabled={!rules.find((rule) => rule.id.toString() === selectedRule)?.google_sheet_id}
 														onClick={() =>
 															handleCopyLink(
 																rules.find(
 																	(rule) => rule.id.toString() === selectedRule
 																)?.google_sheet_id || ""
 															)
-														}>
+														}
+													>
 														Copy Link
 													</Button>
 												</div>

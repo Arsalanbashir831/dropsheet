@@ -50,7 +50,7 @@ const FilteringPage = () => {
 		fetchRules(); // Fetch rules when the page loads
 	}, []);
 
-	const handleGenerateDropSheet = async () => {
+	const handleGenerateSheetDrop = async () => {
 		if (!selectedRule) {
 			toast.error("Please select a rule first");
 			return;
@@ -69,11 +69,11 @@ const FilteringPage = () => {
 
 		setIsGenerating(true);
 
-		// Simulate API call to generate DropSheet (replace with real API if needed)
+		// Simulate API call to generate SheetDrop (replace with real API if needed)
 		setTimeout(() => {
 			setIsGenerating(false);
 			setShowResult(true);
-			toast.success("DropSheet generated successfully!");
+			toast.success("SheetDrop generated successfully!");
 		}, 2000);
 	};
 
@@ -92,7 +92,7 @@ const FilteringPage = () => {
 				{/* Header */}
 				<div className="mb-8">
 					<h1 className="text-3xl font-bold text-gray-900 mb-2">
-						Filter Emails & Generate DropSheet
+						Filter Emails & Generate SheetDrop
 					</h1>
 					<p className="text-gray-600">
 						Select a rule to filter your emails and generate a spreadsheet
@@ -138,20 +138,20 @@ const FilteringPage = () => {
 						</CardContent>
 					</Card>
 
-					{/* Generate DropSheet */}
+					{/* Generate SheetDrop */}
 					<Card>
 						<CardHeader>
-							<CardTitle>Generate DropSheet</CardTitle>
+							<CardTitle>Generate SheetDrop</CardTitle>
 							<CardDescription>
 								Create a Google Sheets export of your filtered emails.
 							</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-4">
 							<Button
-								onClick={handleGenerateDropSheet}
+								onClick={handleGenerateSheetDrop}
 								disabled={!selectedRule || isGenerating}
 								className="bg-green-600 hover:bg-green-700">
-								{isGenerating ? "Generating..." : "Generate DropSheet"}
+								{isGenerating ? "Generating..." : "Generate SheetDrop"}
 							</Button>
 
 							{/* Success Result */}
@@ -162,7 +162,7 @@ const FilteringPage = () => {
 											<div className="text-4xl">📄</div>
 											<div className="flex-1">
 												<h3 className="text-lg font-semibold text-green-800 mb-2">
-													Your DropSheet is Ready!
+													Your SheetDrop is Ready!
 												</h3>
 												<p className="text-green-700 mb-4">
 													Your filtered emails have been exported to a Google
@@ -208,7 +208,7 @@ const FilteringPage = () => {
 							{/* Info Note */}
 							<Alert>
 								<AlertDescription>
-									<strong>Note:</strong> Each rule has its own unique DropSheet.
+									<strong>Note:</strong> Each rule has its own unique SheetDrop.
 									You can manage your rules in the{" "}
 									<Link
 										to={ROUTES.PAGES.RULES}

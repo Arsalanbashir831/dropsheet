@@ -32,7 +32,7 @@ const Layout = ({ children }: LayoutProps) => {
 						<Link
 							to={ROUTES.PAGES.DASHBOARD}
 							className="text-2xl font-bold text-green-600">
-							DropSheet
+							SheetDrop
 						</Link>
 
 						{/* Navigation */}

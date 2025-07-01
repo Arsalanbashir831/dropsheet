@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
 			<Card className="w-full max-w-md">
 				<CardHeader className="text-center">
 					<div className="text-3xl font-bold text-green-600 mb-2">
-						DropSheet
+					SheetDrop
 					</div>
 					<CardTitle className="text-2xl text-gray-900">
 						{isLogin ? "Welcome Back!" : "Create Your Account"}

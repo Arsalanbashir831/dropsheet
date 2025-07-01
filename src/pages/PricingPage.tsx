@@ -163,7 +163,7 @@ const PricingPage = () => {
                             </CardHeader>
                             <CardContent>
                                 <p className="text-gray-600">
-                                    Your existing DropSheets will remain accessible. However,
+                                    Your existing SheetDrops will remain accessible. However,
                                     you'll be limited to the features available in your new plan
                                     for future exports.
                                 </p>

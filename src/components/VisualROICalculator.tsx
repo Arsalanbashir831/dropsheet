@@ -169,7 +169,7 @@ const VisualROICalculator = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-green-200 to-transparent opacity-50"></div>
               <div className="relative z-10">
                 <div className="text-green-600 text-4xl font-bold mb-2 flex items-center justify-center">
-                  $25
+                  $50
                   <div className="ml-2 flex flex-col">
                     <ArrowDown className="w-4 h-4 text-green-600" />
                     <span className="text-xs">FIXED</span>
@@ -220,7 +220,7 @@ const VisualROICalculator = () => {
       <div className="text-center">
         <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-yellow-100 to-orange-100 border border-yellow-300 rounded-full px-8 py-3 animate-float">
           <Zap className="w-5 h-5 text-yellow-600 animate-pulse" />
-          <span className="text-sm font-bold text-yellow-800">🚫 No Subscription Fatigue • $25 Once, Own Forever</span>
+          <span className="text-sm font-bold text-yellow-800">🚫 No Subscription Fatigue • $50 Once, Own Forever</span>
           <div className="flex space-x-1">
             <div className="w-2 h-2 bg-yellow-500 rounded-full animate-ping"></div>
             <div className="w-2 h-2 bg-yellow-500 rounded-full animate-ping" style={{animationDelay: '0.2s'}}></div>

@@ -88,7 +88,7 @@ const ROICalculator = () => {
               </div>
               <div className="text-3xl font-bold text-green-600 mb-2">${savings.toLocaleString()}</div>
               <p className="text-gray-600">
-                lost per year at $25/hour value
+                lost per year at $50/hour value
               </p>
               <p className="text-red-500 mt-2 font-medium">
                 That's pure profit bleeding away!

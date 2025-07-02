@@ -52,7 +52,7 @@ const ProblemSolutionSection = () => {
                 <span className="text-red-700 font-medium">Weekly Cost:</span>
                 <span className="text-red-800 font-bold text-lg">$312.50</span>
               </div>
-              <p className="text-red-600 text-sm mt-1">Based on 50 orders × 15 min × $25/hour</p>
+              <p className="text-red-600 text-sm mt-1">Based on 50 orders × 15 min × $50/hour</p>
             </div>
           </div>
 
@@ -84,7 +84,7 @@ const ProblemSolutionSection = () => {
               </div>
               <div className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-gray-700">One-time payment of $25 - no monthly fees ever</p>
+                <p className="text-gray-700">One-time payment of $50 - no monthly fees ever</p>
               </div>
             </div>
 

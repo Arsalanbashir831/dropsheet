@@ -17,7 +17,7 @@ const audiences = [
     description: "Track walk-in sales, online orders, and supplier emails without drowning in manual paperwork and scattered data.",
     painPoint: "Missing orders buried in email inbox",
     solution: "Never miss a sale or inquiry again",
-    savings: "Prevent $250+ in lost orders"
+    savings: "Prevent $500+ in lost orders"
   },
   {
     icon: <Clock className="w-10 h-10 text-brand-purple" />,
@@ -128,7 +128,7 @@ const TargetAudienceSection = () => {
                       <span className="font-bold">12+ hrs/week</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Annual time cost ($25/hr):</span>
+                      <span>Annual time cost ($50/hr):</span>
                       <span className="font-bold text-red-600">$15,600/year</span>
                     </div>
                     <div className="flex justify-between">
